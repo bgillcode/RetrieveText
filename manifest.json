@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "RetrieveText",
+  "author": "bgillcode",
+  "version": "1.0",
+  "description": "Retrieve text and translate it.",
+  "permissions": ["activeTab", "storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "action": {
+    "default_title": "View Options",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
