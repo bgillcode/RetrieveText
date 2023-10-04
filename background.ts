@@ -56,9 +56,9 @@ chrome.storage.local.get(
       });
 
       if (items.enabled === true) {
-        chrome.action.setIcon({ path: 'icons/rt_enabled.png' }); // Assuming icon.png is your default colored icon
+        chrome.action.setIcon({ path: 'icons/rt_enabled.png' });
       } else {
-        chrome.action.setIcon({ path: 'icons/rt_disabled.png' }); // Assuming icon_grey.png is your greyed out icon
+        chrome.action.setIcon({ path: 'icons/rt_disabled.png' });
       }
     }
   },
