@@ -14,7 +14,10 @@
   ],
   "action": {
     "default_title": "View Options",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icons/rt_enabled.png"
+    }
   },
   "background": {
     "service_worker": "background.js"

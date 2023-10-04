@@ -46,7 +46,7 @@ const translateText = (message: Message['message'], sendResponse: any) => {
 };
 
 chrome.storage.local.get(
-  ['timeout', 'sourceLang', 'targetLang'],
+  ['timeout', 'sourceLang', 'targetLang', 'enabled'],
   (items: any) => {
     if (items.sourceLang?.length < 1) {
       chrome.storage.local.set({
@@ -54,6 +54,44 @@ chrome.storage.local.get(
         sourceLang: items.sourceLang?.length > 0 ? items.sourceLang : 'en',
         targetLang: items.targetLang?.length > 0 ? items.targetLang : 'ja',
       });
+
+      if (items.enabled === true) {
+        chrome.action.setIcon({ path: 'icons/rt_enabled.png' }); // Assuming icon.png is your default colored icon
+      } else {
+        chrome.action.setIcon({ path: 'icons/rt_disabled.png' }); // Assuming icon_grey.png is your greyed out icon
+      }
     }
   },
 );
+
+const updateIconBasedOnState = (enabled: boolean): void => {
+  if (enabled) {
+    chrome.action.setIcon({ path: 'icons/rt_enabled.png' });
+  } else {
+    chrome.action.setIcon({ path: 'icons/rt_disabled.png' });
+  }
+};
+
+// When the extension is installed or updated
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    chrome.storage.local.set(
+      {
+        enabled: true,
+      },
+      () => {
+        updateIconBasedOnState(true);
+      },
+    );
+  } else if (details.reason === 'update') {
+    chrome.storage.local.get('enabled', (items) => {
+      updateIconBasedOnState(items.enabled);
+    });
+  }
+});
+
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'local' && changes.enabled) {
+    updateIconBasedOnState(changes.enabled.newValue);
+  }
+});
