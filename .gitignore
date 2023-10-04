@@ -2,3 +2,5 @@
 background.js
 content.js
 popup.js
+apiUtil.ts
+apiUtil.js
