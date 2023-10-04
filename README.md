@@ -11,7 +11,7 @@ Works in Chromium-based browsers such as Google Chrome and Microsoft Edge.
 Languages can be configured by clicking the extension icon and selecting the source and target language.
 
 ## Requirements:
-Node, TypeScript, Webpack
+Node, TypeScript, Webpack, Tailwind
 
 # Installation
 Clone the repository and then replace the variable for constructedAPIURL in apiUtil.ts with your own translation API URL.
