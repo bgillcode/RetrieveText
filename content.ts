@@ -1,13 +1,32 @@
 let selectedText: string = '';
 let lastHighlightedNode: HTMLElement | null = null;
+let isEnabled = false;
+
+chrome.storage.local.get(
+  ['timeout', 'sourceLang', 'targetLang', 'enabled'],
+  (items: StorageItems) => {
+    isEnabled = items.enabled ?? false;
+  },
+);
+
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'local' && 'enabled' in changes) {
+    isEnabled = changes.enabled.newValue;
+  }
+});
 
 interface StorageItems {
   timeout?: number;
   sourceLang?: string;
   targetLang?: string;
+  enabled?: boolean;
 }
 
 document.addEventListener('mouseup', (e: MouseEvent) => {
+  if (!isEnabled) {
+    return;
+  }
+
   const selection = window.getSelection();
   if (selection) {
     selectedText = selection.toString();
@@ -37,6 +56,10 @@ const unhighlight = (): void => {
 };
 
 document.addEventListener('mousedown', (e: MouseEvent) => {
+  if (!isEnabled) {
+    return; // if the extension is not enabled, just return without executing further logic
+  }
+
   if (lastHighlightedNode && !lastHighlightedNode.contains(e.target as Node)) {
     unhighlight();
   }
