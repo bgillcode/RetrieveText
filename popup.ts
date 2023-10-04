@@ -30,20 +30,24 @@ document.getElementById('sourceLang')?.addEventListener('change', saveSettings);
 document.getElementById('targetLang')?.addEventListener('change', saveSettings);
 
 const updateButtonState = (isEnabled: boolean): void => {
-  const enableOrDisableElement = document.getElementById('enableOrDisable') as HTMLButtonElement;
+  const enableOrDisableElement = document.getElementById(
+    'enableOrDisable',
+  ) as HTMLButtonElement;
   enableOrDisableElement.innerText = isEnabled ? 'Disable' : 'Enable';
-}
+};
 
-document.getElementById('enableOrDisable')?.addEventListener('click', function() {
-  chrome.storage.local.get('enabled', (items: StorageItems) => {
-    const isEnabled = !items.enabled;  // Toggle the current state
-    chrome.storage.local.set({ enabled: isEnabled }, function() {
-      updateButtonState(isEnabled);  // Update the button text after saving the new state
+document
+  .getElementById('enableOrDisable')
+  ?.addEventListener('click', function () {
+    chrome.storage.local.get('enabled', (items: StorageItems) => {
+      // Toggle the current state
+      const isEnabled = !items.enabled;
+      chrome.storage.local.set({ enabled: isEnabled }, function () {
+        // Update the button text after saving the new state
+        updateButtonState(isEnabled);
+      });
     });
   });
-});
-
-
 
 chrome.storage.local.get(
   ['timeout', 'sourceLang', 'targetLang', 'enabled'],
@@ -59,7 +63,7 @@ chrome.storage.local.get(
     ) as HTMLSelectElement;
     const enableOrDisableElement = document.getElementById(
       'enableOrDisable',
-    ) as HTMLButtonElement;    
+    ) as HTMLButtonElement;
 
     timeoutElement.value =
       items.timeout !== undefined ? items.timeout.toString() : '0';
