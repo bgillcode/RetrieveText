@@ -1,0 +1,19 @@
+{
+  "name": "retrievetext",
+  "version": "1.0.0",
+  "main": "background.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "author": "bgillcode",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "terser-webpack-plugin": "^5.3.9",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}

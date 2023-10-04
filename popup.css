@@ -1,0 +1,25 @@
+body {
+    width: 200px;
+}
+
+button {
+    padding: 5px;
+}
+
+#sourceLang {
+    padding: 3px;
+    border-radius: 5px;
+}
+
+#targetLang {
+    padding: 3px;
+    border-radius: 5px;
+}
+
+#timeout {
+    width: 40px;
+}
+
+#save {
+    float: right;
+}
