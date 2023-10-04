@@ -2,6 +2,7 @@ interface StorageItems {
   timeout?: number;
   sourceLang?: string;
   targetLang?: string;
+  enabled?: boolean;
 }
 
 const saveSettings = (): void => {
@@ -28,8 +29,24 @@ document.getElementById('timeout')?.addEventListener('input', saveSettings);
 document.getElementById('sourceLang')?.addEventListener('change', saveSettings);
 document.getElementById('targetLang')?.addEventListener('change', saveSettings);
 
+const updateButtonState = (isEnabled: boolean): void => {
+  const enableOrDisableElement = document.getElementById('enableOrDisable') as HTMLButtonElement;
+  enableOrDisableElement.innerText = isEnabled ? 'Disable' : 'Enable';
+}
+
+document.getElementById('enableOrDisable')?.addEventListener('click', function() {
+  chrome.storage.local.get('enabled', (items: StorageItems) => {
+    const isEnabled = !items.enabled;  // Toggle the current state
+    chrome.storage.local.set({ enabled: isEnabled }, function() {
+      updateButtonState(isEnabled);  // Update the button text after saving the new state
+    });
+  });
+});
+
+
+
 chrome.storage.local.get(
-  ['timeout', 'sourceLang', 'targetLang'],
+  ['timeout', 'sourceLang', 'targetLang', 'enabled'],
   (items: StorageItems) => {
     const timeoutElement = document.getElementById(
       'timeout',
@@ -40,10 +57,14 @@ chrome.storage.local.get(
     const targetLangElement = document.getElementById(
       'targetLang',
     ) as HTMLSelectElement;
+    const enableOrDisableElement = document.getElementById(
+      'enableOrDisable',
+    ) as HTMLButtonElement;    
 
     timeoutElement.value =
       items.timeout !== undefined ? items.timeout.toString() : '0';
     sourceLangElement.value = items.sourceLang || 'en';
     targetLangElement.value = items.targetLang || 'ja';
+    enableOrDisableElement.innerText = items.enabled ? 'Disable' : 'Enable';
   },
 );
